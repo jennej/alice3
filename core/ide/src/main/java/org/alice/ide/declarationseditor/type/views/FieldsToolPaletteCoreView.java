@@ -70,7 +70,7 @@ public class FieldsToolPaletteCoreView extends MembersToolPaletteCoreView {
     this.addComponent(composite.getMembersComposite().getView());
     this.addComponent(AddUnmanagedFieldComposite.getInstance(type).getLaunchOperation().createButton());
 
-    final boolean IS_POSER_READY_FOR_PRIME_TIME = false;
+    final boolean IS_POSER_READY_FOR_PRIME_TIME = true;
     if (IS_POSER_READY_FOR_PRIME_TIME) {
       DeclarePoseFieldOperation declarePoseFieldOperation = DeclarePoseFieldOperation.getInstance(type);
       if (declarePoseFieldOperation != null) {
