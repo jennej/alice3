@@ -55,6 +55,12 @@ import java.awt.event.KeyEvent;
 /**
  * @author Dennis Cosgrove
  */
+
+
+// TODO- this file might not be needed.
+// It was resurrected in 2014, as part of the IK work, and doesn't obviously fully do what we want it to do.
+// There is no reason to keep this around vs any other, possibly more consistent, way of getting this functionality
+
 class CameraNavigationDerivative extends TranslationDerivative {
 }
 
