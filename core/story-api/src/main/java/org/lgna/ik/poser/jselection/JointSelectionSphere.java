@@ -45,8 +45,9 @@ package org.lgna.ik.poser.jselection;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lgna.story.SSphere;
-import org.lgna.story.Size;
+import edu.cmu.cs.dennisc.scenegraph.Transformable;
+import org.alice.math.immutable.Point3;
+import org.lgna.story.*;
 import org.lgna.story.implementation.JointImp;
 import org.lgna.story.resources.JointId;
 
@@ -57,45 +58,62 @@ public class JointSelectionSphere extends SSphere {
   private final JointImp joint;
   private final JointSelectionSphere parent;
 
-  public JointSelectionSphere(JointImp jointToSelect, JointSelectionSphere parent) {
+  public JointSelectionSphere(JointImp jointToSelect, JointSelectionSphere parentJSS) {
     super();
-    this.joint = jointToSelect;
-    this.setVehicle(jointToSelect.getAbstraction());
-    this.moveAndOrientTo(jointToSelect.getAbstraction());
-    this.setSize(new Size(.25, .25, .25));
-    this.parent = parent;
+    setVehicle(jointToSelect.getAbstraction());
+    moveAndOrientTo(jointToSelect.getAbstraction());
+    setRadius(.125);
+    setOpacity(.5);
+//    setSize(new Size(.25, .25, .25));
     setName(jointToSelect.getJointId().toString());
+
+    joint = jointToSelect;
+    //JEN- are parents useless? ;)
+    parent = parentJSS;
   }
+
+  public void returnToJoint () {
+    moveAndOrientTo(joint.getAbstraction());
+  }
+
+  public Point3 getAbsoluteTranslation() {
+    return getImplementation().getAbsoluteTransformation().translation();
+  }
+
+  public Transformable getTransformable() {
+    return getImplementation().getSgComposite();
+  }
+
 
   public JointImp getJoint() {
-    return this.joint;
+    return joint;
   }
 
-  public static JointSelectionSphere findSphereForJoint(JointId jointID, ArrayList<JointSelectionSphere> jointSelectionSpheres) {
-    for (JointSelectionSphere sphere : jointSelectionSpheres) {
-      if (sphere.getJoint().getJointId().equals(jointID)) {
-        return sphere;
-      }
-    }
-    return null;
-  }
+//  public static JointSelectionSphere findSphereForJoint(JointId jointID, ArrayList<JointSelectionSphere> jointSelectionSpheres) {
+//    for (JointSelectionSphere s : jointSelectionSpheres) {
+//      if (s.getJoint().getJointId().equals(jointID)) {
+//        return s;
+//      }
+//    }
+//    return null;
+//  }
 
-  public JointSelectionSphere getRoot() {
-    return this.getParent() != null ? this.getParent().getRoot() : this;
-  }
+//  public JointSelectionSphere getRoot() {
+//    return getParent() != null ? getParent().getRoot() : this;
+//  }
+//
+//  private JointSelectionSphere getParent() {
+//    return parent;
+//  }
 
-  private JointSelectionSphere getParent() {
-    return this.parent;
-  }
-
-  public List<JointSelectionSphere> getPossibleAnchors() {
-    List<JointSelectionSphere> rv = Lists.newArrayList();
-    JointSelectionSphere ptr = this;
-    while (ptr != this.getRoot()) {
-      rv.add(ptr);
-      ptr = ptr.getParent();
-    }
-    rv.add(ptr);
-    return rv;
-  }
+//  public List<JointSelectionSphere> getPossibleAnchors() {
+//    List<JointSelectionSphere> rv = Lists.newArrayList();
+//    JointSelectionSphere ptr = this;
+//    while (ptr != this.getRoot()) {
+//      rv.add(ptr);
+//      ptr = ptr.getParent();
+//    }
+//    rv.add(ptr);
+//    return rv;
+//  }
 }

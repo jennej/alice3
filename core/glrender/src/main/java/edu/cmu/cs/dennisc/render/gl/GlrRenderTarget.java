@@ -190,6 +190,16 @@ abstract class GlrRenderTarget extends AbstractReleasable implements RenderTarge
     return Ray.NaN;
   }
 
+  public final Ray getViewportRayAtAwtPoint(Point p, AbstractCamera sgCamera) {
+    if (sgCamera != null) {
+      GlrAbstractCamera<? extends AbstractCamera> cameraAdapter = AdapterFactory.getAdapterFor(sgCamera);
+      final Rectangle viewport = getActualViewportFromAdapter(cameraAdapter);
+      // Convert from awt to viewport so that the cameras don't have to know about awt.
+      return cameraAdapter.getRayAtViewportPixel(p.x, viewport.height - p.y, viewport);
+    }
+    return Ray.NaN;
+  }
+
   @Override
   public boolean isLetterboxed(AbstractCamera sgCamera) {
     GlrAbstractCamera<? extends AbstractCamera> cameraAdapter = AdapterFactory.getAdapterFor(sgCamera);
@@ -305,24 +315,16 @@ abstract class GlrRenderTarget extends AbstractReleasable implements RenderTarge
     return new Vector4(x, y, z, 1.0);
   }
 
-  private Vector4 transformFromProjectionToCamera(Vector4 projectionCoord, AbstractCamera sgCamera) {
-    return getActualProjectionMatrix(sgCamera).invert().transform(projectionCoord);
-  }
-
-  private Vector4 transformFromCameraToProjection(Vector4 camCoord, AbstractCamera sgCamera) {
-    Vector4 scaled = camCoord.dividedBy(camCoord.w());
-    return getActualProjectionMatrix(sgCamera).transform(scaled);
-  }
-
   private Vector4 transformFromCameraToViewport(Vector4 camCoord, AbstractCamera sgCamera, Rectangle actualViewport) {
-    Vector4 projectionCoord = transformFromCameraToProjection(camCoord, sgCamera);
+    Vector4 scaled = camCoord.dividedBy(camCoord.w());
+    Vector4 projectionCoord = getActualProjectionMatrix(sgCamera).transform(scaled);
     return transformFromProjectionToViewport(projectionCoord, sgCamera, actualViewport);
   }
-
+  
   public Vector4 transformFromViewportToCamera(Vector4 xyzw, AbstractCamera sgCamera) {
     final Rectangle actualViewport = getActualViewportAsAwtRectangle(sgCamera);
     Vector4 projectionCoord = transformFromViewportToProjection(xyzw, sgCamera, actualViewport);
-    return transformFromProjectionToCamera(projectionCoord, sgCamera);
+    return getActualProjectionMatrix(sgCamera).invert().transform(projectionCoord);
   }
 
   public Vector4 transformFromCameraToViewport(Vector4 xyzw, AbstractCamera sgCamera) {

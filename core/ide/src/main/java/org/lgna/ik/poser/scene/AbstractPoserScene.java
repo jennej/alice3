@@ -101,7 +101,7 @@ public abstract class AbstractPoserScene<T extends SJointedModel> extends SScene
     for (IKCore.Limb limb : limbToJointMap.keySet()) {
       for (JointSelectionSphere sphere : limbToJointMap.get(limb)) {
         jointToLimbMap.put(sphere.getJoint(), limb);
-        sphere.setOpacity(0);
+        sphere.setOpacity(1);
       }
     }
 
@@ -143,7 +143,7 @@ public abstract class AbstractPoserScene<T extends SJointedModel> extends SScene
     @Override
     public void fireFinish(PoserEvent poserEvent) {
       JointSelectionSphere jss = poserEvent.getJSS();
-      jss.moveAndOrientTo(jss.getJoint().getAbstraction());
+      jss.returnToJoint();
       poserAnimatorDragAdapter.setSelectedImplementation(jss.getJoint());
       poserAnimatorDragAdapter.setHandleVisibility(adapter.getJointRotationHandleVisibilityState().getValue());
 
@@ -158,8 +158,8 @@ public abstract class AbstractPoserScene<T extends SJointedModel> extends SScene
     }
   };
 
-  protected JointSelectionSphere createJSS(SJoint joint, JointSelectionSphere child) {
-    return new JointSelectionSphere(joint.getImplementation(), child);
+  protected JointSelectionSphere createJSS(SJoint joint, JointSelectionSphere parent) {
+    return new JointSelectionSphere(joint.getImplementation(), parent);
   }
 
   private void performGeneratedSetup() {
@@ -178,6 +178,8 @@ public abstract class AbstractPoserScene<T extends SJointedModel> extends SScene
 
   private void performInitializeEvents() {
     addCustomDragAdapter();
+    OnscreenRenderTarget target = getOnscreenRenderTarget();
+    target.setLetterboxed(this.camera.getImplementation().getSgCamera(), false);
   }
 
   private OnscreenRenderTarget getOnscreenRenderTarget() {

@@ -86,6 +86,8 @@ public interface RenderTarget {
   AbstractCamera getCameraAtAwtPoint(Point point);
 
   // Takes a point in awt space, returns a ray in viewport space
+  Ray getViewportRayAtAwtPoint(Point point, AbstractCamera sgCamera);
+  // Takes a point in awt space, returns a ray in camera space
   Ray getRayAtAwtPoint(Point point, AbstractCamera sgCamera);
 
   boolean isLetterboxed(AbstractCamera sgCamera);

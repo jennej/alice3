@@ -322,7 +322,9 @@ public class ObjectRotateDragManipulator extends AbstractManipulator implements 
 
   @Override
   public void doEndManipulator(InputState endInput, InputState previousInput) {
-    this.rotationHandle.setSphereVisibility(false);
+    if (this.rotationHandle != null) {
+      this.rotationHandle.setSphereVisibility(false);
+    }
     SnapUtilities.hideRotationSnapVisualization();
     this.showCursor();
     //    DEBUG_removeDebugSphereFromScene();

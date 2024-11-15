@@ -61,6 +61,9 @@ import java.awt.event.MouseMotionListener;
 /**
  * @author Dennis Cosgrove
  */
+
+// This class should be flattened away.  Ideally, we can also get rid of this mouse listener?!
+
 public abstract class PicturePlaneInteraction {
   private static enum Mode {
     PLANE, RAY
@@ -178,6 +181,8 @@ public abstract class PicturePlaneInteraction {
   private void startRayDrag(MouseEvent e) {
     // TODO- I made the assumption that this camera would work in order to simplify the RenderTarget API.
     // If this code is resurrected and this was incorrect, the solution is to call the renderTarget's getCameraAtPixel
+    AbstractCamera wert = this.onscreenRenderTarget.getCameraAtAwtPoint(e.getPoint());
+    assert(wert == this.sgCamera);
     this.ray = this.onscreenRenderTarget.getRayAtAwtPoint(e.getPoint(), this.sgCamera);
     this.rayPixelY0 = e.getY();
     Point3 p = this.sgTransformable.getTranslation(this.sgCamera);

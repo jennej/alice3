@@ -112,7 +112,7 @@ public class DebugOverlay implements RenderTargetListener {
         }
         int rgb = c.getRGB();
 
-        //2x2 grid
+        // fill in 2x2 grid from this ray
         rv.setRGB(x, y, rgb);
         rv.setRGB(Math.min(surfaceSize.width - 1, x + 1), y, rgb);
         rv.setRGB(x, Math.min(surfaceSize.height - 1, y + 1), rgb);
