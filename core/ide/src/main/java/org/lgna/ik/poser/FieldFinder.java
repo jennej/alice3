@@ -58,7 +58,6 @@ import org.lgna.project.ast.NamedUserType;
 import org.lgna.project.ast.SimpleArgument;
 import org.lgna.project.ast.UserField;
 import org.lgna.project.virtualmachine.ReleaseVirtualMachine;
-import org.lgna.story.resources.DynamicBipedResource;
 import org.lgna.story.resources.JointedModelResource;
 
 import edu.cmu.cs.dennisc.java.util.Lists;
@@ -90,7 +89,7 @@ public class FieldFinder {
     ArrayList<JointedModelResource> rv = Lists.newArrayList();
     refreshScene();
     if (sceneType == null) {
-      JointedModelResource ogre = new DynamicBipedResource("ogre", "ogre");
+      JointedModelResource ogre = org.lgna.story.resources.biped.OgreResource.GREEN;
       return Lists.newArrayList(ogre);
     }
     List<UserField> fields = sceneType.getDeclaredFields();

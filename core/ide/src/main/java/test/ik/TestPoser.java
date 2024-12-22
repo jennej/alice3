@@ -57,7 +57,7 @@ import org.lgna.project.virtualmachine.UserInstance;
 import org.lgna.story.SBiped;
 import org.lgna.story.SProgram;
 import org.lgna.story.resources.BipedResource;
-import org.lgna.story.resources.DynamicBipedResource;
+
 
 //import test.ik.IkTestApplication;
 
@@ -73,7 +73,7 @@ public class TestPoser extends SProgram {
 
     ReleaseVirtualMachine vm = new ReleaseVirtualMachine();
 
-    BipedResource bipedResource = new DynamicBipedResource("ogre", "ogre");
+    BipedResource bipedResource = org.lgna.story.resources.biped.OgreResource.BROWN;
 
     JavaType ancestorType = JavaType.getInstance(SBiped.class);
     JavaField argumentField = JavaField.getInstance(bipedResource.getClass(), bipedResource.toString());
