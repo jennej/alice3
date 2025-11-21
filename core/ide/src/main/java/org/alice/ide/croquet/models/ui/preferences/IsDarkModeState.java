@@ -40,49 +40,23 @@
  * THE USE OF OR OTHER DEALINGS WITH THE SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *******************************************************************************/
-package org.alice.ide.members.components;
+package org.alice.ide.croquet.models.ui.preferences;
 
-import edu.cmu.cs.dennisc.java.awt.font.TextPosture;
-import edu.cmu.cs.dennisc.java.awt.font.TextWeight;
-import org.alice.ide.Theme;
-import org.alice.ide.ast.EmptyExpression;
-import org.alice.ide.common.AbstractArgumentListPropertyPane;
-import org.alice.ide.common.EmptyExpressionPane;
-import org.alice.ide.croquet.models.ui.formatter.FormatterState;
-import org.alice.ide.x.AstI18nFactory;
-import org.lgna.croquet.views.AwtComponentView;
-import org.lgna.croquet.views.Label;
-import org.lgna.croquet.views.LineAxisPanel;
-import org.lgna.project.ast.SimpleArgument;
-import org.lgna.project.ast.SimpleArgumentListProperty;
+import org.lgna.croquet.Application;
+import org.lgna.croquet.preferences.PreferenceBooleanState;
 
-import javax.swing.BorderFactory;
-import javax.swing.UIManager;
+import java.util.UUID;
 
-/**
- * these are the boxes and labels  that go around values that can be set.
- * @author Dennis Cosgrove
- */
-public class ArgumentListPropertyPane extends AbstractArgumentListPropertyPane {
-  public ArgumentListPropertyPane(AstI18nFactory factory, SimpleArgumentListProperty property) {
-    super(factory, property);
+public class IsDarkModeState extends PreferenceBooleanState {
+  private static class SingletonHolder {
+    private static IsDarkModeState instance = new IsDarkModeState();
   }
 
-  @Override
-  protected AwtComponentView<?> createComponent(SimpleArgument argument) {
-    LineAxisPanel rv = new LineAxisPanel();
-    // we apply a semi-transparent box here, for a bit of contrast
-    rv.setBackgroundColor(UIManager.getColor("Alice.BlockOverlay"));
-    rv.setBorder(BorderFactory.createLineBorder(UIManager.getColor("Alice.Block.foreground"), 1));
+  public static  IsDarkModeState getInstance() {
+    return SingletonHolder.instance;
+  }
 
-    String parameterName = FormatterState.getInstance().getValue().getNameForDeclaration(argument.parameter.getValue());
-    if ((parameterName != null) && !parameterName.isEmpty()) {
-      Label l = new Label(parameterName + ": ", TextPosture.OBLIQUE, TextWeight.LIGHT);
-      l.setBorder(Theme.BLOCK_BORDER);
-      l.setForegroundColor(UIManager.getColor("Alice.Block.contrastForeground"));
-      rv.addComponent(l);
-    }
-    rv.addComponent(new EmptyExpressionPane((EmptyExpression) argument.expression.getValue()));
-    return rv;
+  private IsDarkModeState() {
+    super(Application.DOCUMENT_UI_GROUP, UUID.fromString("cab8417a-b29f-4a27-93de-c89876312e26"), true);
   }
 }

@@ -56,6 +56,7 @@ import edu.cmu.cs.dennisc.render.gl.RendererNativeLibraryLoader;
 import edu.wustl.lookingglass.utilities.memory.HeapWatchDog;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import org.alice.ide.croquet.models.ui.preferences.IsDarkModeState;
 import org.lgna.project.ProjectVersion;
 import org.lgna.project.reflect.ClassInfo;
 import org.lgna.project.reflect.ClassInfoManager;
@@ -90,7 +91,7 @@ public class EntryPoint extends Application {
     FlatLaf.registerCustomDefaultsSource("org.alice.stageide.themes");
 
     // TODO- create a setting somewhere? auto-determine from OS?
-    Boolean useDarkMode = false;
+    Boolean useDarkMode = IsDarkModeState.getInstance().getValue();
     try {
         javax.swing.UIManager.setLookAndFeel((useDarkMode ? new com.formdev.flatlaf.FlatDarkLaf() : new com.formdev.flatlaf.FlatLightLaf()));
         com.formdev.flatlaf.FlatLaf.updateUI();

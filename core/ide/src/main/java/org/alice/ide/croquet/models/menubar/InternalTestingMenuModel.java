@@ -127,6 +127,8 @@ public class InternalTestingMenuModel extends PredeterminedMenuModel {
         IsIncludingProtectedUserMethods.getInstance().getMenuItemPrepModel(),
         IsIncludingPrivateUserMethods.getInstance().getMenuItemPrepModel(),
         IsIncludingManagedUserMethods.getInstance().getMenuItemPrepModel(),
-        ExportToPovRayOperation.getInstance().getMenuItemPrepModel());
+        ExportToPovRayOperation.getInstance().getMenuItemPrepModel(),
+        SEPARATOR,
+        IsDarkModeState.getInstance().getMenuItemPrepModel());
   }
 }

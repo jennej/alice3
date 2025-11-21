@@ -42,10 +42,12 @@
  *******************************************************************************/
 package org.alice.ide;
 
+import com.formdev.flatlaf.FlatLaf;
 import edu.cmu.cs.dennisc.crash.CrashDetector;
 import edu.cmu.cs.dennisc.java.lang.ClassUtilities;
 import edu.cmu.cs.dennisc.java.lang.SystemUtilities;
 import edu.cmu.cs.dennisc.java.util.Sets;
+import edu.cmu.cs.dennisc.java.util.logging.Logger;
 import edu.cmu.cs.dennisc.javax.swing.option.Dialogs;
 import edu.cmu.cs.dennisc.pattern.Crawler;
 import edu.cmu.cs.dennisc.pattern.Criterion;
@@ -54,6 +56,7 @@ import org.alice.ide.cascade.ExpressionCascadeManager;
 import org.alice.ide.croquet.models.projecturi.ClearanceCheckingExitOperation;
 import org.alice.ide.croquet.models.projecturi.OpenProjectFromOsOperation;
 import org.alice.ide.croquet.models.ui.locale.LocaleState;
+import org.alice.ide.croquet.models.ui.preferences.IsDarkModeState;
 import org.alice.ide.issue.DefaultExceptionHandler;
 import org.alice.ide.perspectives.ProjectPerspective;
 import org.alice.ide.sceneeditor.AbstractSceneEditor;
@@ -63,7 +66,6 @@ import org.lgna.croquet.Application;
 import org.lgna.croquet.Group;
 import org.lgna.croquet.Operation;
 import org.lgna.croquet.Perspective;
-import org.lgna.croquet.event.ValueEvent;
 import org.lgna.croquet.event.ValueListener;
 import org.lgna.croquet.history.UserActivity;
 import org.lgna.croquet.preferences.PreferenceManager;
@@ -72,31 +74,13 @@ import org.lgna.croquet.views.AwtComponentView;
 import org.lgna.croquet.views.DragComponent;
 import org.lgna.project.ProgramTypeUtilities;
 import org.lgna.project.Project;
-import org.lgna.project.ast.AbstractField;
-import org.lgna.project.ast.AbstractMethod;
-import org.lgna.project.ast.AbstractNode;
-import org.lgna.project.ast.AbstractType;
-import org.lgna.project.ast.AstUtilities;
-import org.lgna.project.ast.Comment;
-import org.lgna.project.ast.CrawlPolicy;
-import org.lgna.project.ast.Declaration;
-import org.lgna.project.ast.Expression;
-import org.lgna.project.ast.FieldAccess;
-import org.lgna.project.ast.InstanceCreation;
-import org.lgna.project.ast.MethodInvocation;
-import org.lgna.project.ast.NamedUserType;
-import org.lgna.project.ast.Node;
-import org.lgna.project.ast.ResourceExpression;
-import org.lgna.project.ast.SimpleArgumentListProperty;
-import org.lgna.project.ast.StatementListProperty;
-import org.lgna.project.ast.TypeExpression;
-import org.lgna.project.ast.UserCode;
-import org.lgna.project.ast.UserField;
-import org.lgna.project.ast.UserMethod;
+import org.lgna.project.ast.*;
 import org.lgna.project.code.ProcessableNode;
 import org.lgna.project.virtualmachine.ReleaseVirtualMachine;
 import org.lgna.project.virtualmachine.VirtualMachine;
 
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.List;
@@ -126,12 +110,7 @@ public abstract class IDE extends ProjectApplication {
     return ClassUtilities.getInstance(Application.getActiveInstance(), IDE.class);
   }
 
-  private final ValueListener<ProjectPerspective> perspectiveListener = new ValueListener<ProjectPerspective>() {
-    @Override
-    public void valueChanged(ValueEvent<ProjectPerspective> e) {
-      IDE.this.setPerspective(e.getNextValue());
-    }
-  };
+  private final ValueListener<ProjectPerspective> perspectiveListener = e -> IDE.this.setPerspective(e.getNextValue());
 
   private PotentialDropReceptorsFeedbackView potentialDropReceptorsStencil;
 
@@ -150,12 +129,7 @@ public abstract class IDE extends ProjectApplication {
     //If so, it sets that locale and adds the locale listener to the locale state
     //If not, it adds and invokes the listener on the locale state which has been initialized based on saved preferences
 
-    ValueListener<Locale> localeListener = new ValueListener<Locale>() {
-      @Override
-      public void valueChanged(ValueEvent<Locale> e) {
-        setLocale(e.getNextValue());
-      }
-    };
+    ValueListener<Locale> localeListener = e -> setLocale(e.getNextValue());
     String forcedLocaleString = System.getProperty("org.alice.ide.locale");
     Locale forcedLocale = null;
     if (forcedLocaleString != null) {
@@ -168,6 +142,19 @@ public abstract class IDE extends ProjectApplication {
     } else {
       LocaleState.getInstance().addAndInvokeNewSchoolValueListener(localeListener);
     }
+
+    // attempts to update the laf (not all of our ui elements will update properly until Alice is restarted)
+    IsDarkModeState.getInstance().addAndInvokeNewSchoolValueListener(e -> {
+      try {
+        UIManager.setLookAndFeel((e.getNextValue() ? new com.formdev.flatlaf.FlatDarkLaf() : new com.formdev.flatlaf.FlatLightLaf()));
+        FlatLaf.updateUI();
+      } catch (UnsupportedLookAndFeelException updateFlatLafThemeException) {
+        Logger.severe("Was unable to update look and feel theme: " + updateFlatLafThemeException.getMessage());
+        updateFlatLafThemeException.printStackTrace();
+      }
+
+    });
+
 
   }
 
