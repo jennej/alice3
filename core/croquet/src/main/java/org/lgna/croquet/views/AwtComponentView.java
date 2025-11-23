@@ -354,6 +354,16 @@ public abstract class AwtComponentView<J extends Component> extends ScreenElemen
     this.getAwtComponent().setBackground(color);
   }
 
+  public void setUIColorsFrom(Component component) {
+    // setFore/Background may be overridden, so call them & don't just get the awtComponent here
+    setForegroundColor(component.getForeground());
+    setBackgroundColor(component.getBackground());
+  }
+
+  public <V extends AwtComponentView<?>> void setUIColorsFrom(V componentView) {
+    setUIColorsFrom(componentView.getAwtComponent());
+  }
+
   public boolean isShowing() {
     return awtComponent != null && this.getAwtComponent().isShowing();
   }

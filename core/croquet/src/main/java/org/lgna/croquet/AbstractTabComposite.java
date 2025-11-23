@@ -97,6 +97,6 @@ public abstract class AbstractTabComposite<V extends CompositeView<?, ?>> extend
 
   @Override
   public void customizeTitleComponentAppearance(BooleanStateButton<?> button) {
-    button.setBackgroundColor(this.getView().getBackgroundColor());
+    button.setUIColorsFrom(this.getView());
   }
 }

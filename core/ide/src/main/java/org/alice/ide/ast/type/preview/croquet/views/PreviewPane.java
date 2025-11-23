@@ -97,7 +97,7 @@ public class PreviewPane extends MigPanel {
     this.addComponent(page.getIsIncludingAllState().createHorizontalToggleButtons(false), "wrap");
 
     ScrollPane scrollPane = new ScrollPane(panel);
-    panel.setBackgroundColor(this.getBackgroundColor());
+    panel.setUIColorsFrom(this);
     this.addComponent(scrollPane, "grow, shrink, wrap");
   }
 }

@@ -60,7 +60,7 @@ public class AddManagedFieldView extends AddFieldView {
     AddManagedFieldComposite composite = (AddManagedFieldComposite) this.getComposite();
     if (composite.getInitialPropertyValuesToolPaletteCoreComposite().getInitialPropertyValueExpressionStateCount() > 0) {
       ToolPaletteView toolPaletteView = composite.getInitialPropertyValuesToolPaletteCoreComposite().getOuterComposite().getView();
-      toolPaletteView.setBackgroundColor(this.getBackgroundColor());
+      toolPaletteView.setUIColorsFrom(this);
       rv.addCenterComponent(toolPaletteView);
     }
     return rv;

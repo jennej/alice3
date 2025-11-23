@@ -302,7 +302,7 @@ public abstract class WizardDialogCoreComposite extends GatedCommitDialogCoreCom
       mainView.addComponent(cardPanel, "aligny top");
 
       rv = new BorderPanel.Builder().lineStart(stepsView).center(mainView).build();
-      rv.setBackgroundColor(cardPanel.getBackgroundColor());
+      rv.setUIColorsFrom(cardPanel);
     } else {
       rv = cardPanel; //note: the composite is not correct.  worth addressing?
     }

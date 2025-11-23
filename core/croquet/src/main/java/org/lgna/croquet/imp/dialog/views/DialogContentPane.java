@@ -59,7 +59,7 @@ public abstract class DialogContentPane extends BorderPanel {
     this.commitButton = coreComposite.getCommitOperation().createButton();
     this.cancelButton = coreComposite.getCancelOperation().createButton();
     CompositeView<?, ?> coreView = coreComposite.getView();
-    this.setBackgroundColor(coreView.getBackgroundColor());
+    setUIColorsFrom(coreView);
     this.addCenterComponent(coreView);
   }
 

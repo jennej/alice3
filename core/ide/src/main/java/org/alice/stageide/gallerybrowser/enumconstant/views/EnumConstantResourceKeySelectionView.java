@@ -62,7 +62,7 @@ public class EnumConstantResourceKeySelectionView extends BorderPanel {
     list.setCellRenderer(new EnumConstantResourceKeyListCellRenderer());
     list.setLayoutOrientation(List.LayoutOrientation.HORIZONTAL_WRAP);
     list.setVisibleRowCount(-1);
-    list.setBackgroundColor(this.getBackgroundColor());
+    list.setUIColorsFrom(this);
     list.enableClickingDefaultButtonOnDoubleClick();
     this.addCenterComponent(new ScrollPane(list));
   }

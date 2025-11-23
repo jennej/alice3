@@ -53,7 +53,6 @@ import org.lgna.story.resources.sims2.TopPiece;
 
 import javax.swing.BorderFactory;
 import javax.swing.UIManager;
-import java.awt.Color;
 
 /**
  * @author Dennis Cosgrove
@@ -61,17 +60,16 @@ import java.awt.Color;
 public class TopAndBottomOutiftTabView extends OutfitTabView {
   public TopAndBottomOutiftTabView(TopAndBottomOutfitTabComposite composite) {
     super(composite);
-    Color backgroundColor = this.getBackgroundColor();
 
-    List<TopPiece> topList = new HorizontalWrapList<TopPiece>(composite.getTopPieceState(), -1, TopPieceListCellRenderer.getInstance());
-    topList.setBackgroundColor(backgroundColor);
+    List<TopPiece> topList = new HorizontalWrapList<>(composite.getTopPieceState(), -1, TopPieceListCellRenderer.getInstance());
+    topList.setUIColorsFrom(this);
     ScrollPane topScrollPane = new ScrollPane(topList);
     topScrollPane.setBothScrollBarIncrements(66, 66);
     topScrollPane.setHorizontalScrollbarPolicy(ScrollPane.HorizontalScrollbarPolicy.NEVER);
     topScrollPane.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIManager.getColor("Separator.foreground")));
 
-    List<BottomPiece> bottomList = new HorizontalWrapList<BottomPiece>(composite.getBottomPieceState(), -1, BottomPieceListCellRenderer.getInstance());
-    bottomList.setBackgroundColor(backgroundColor);
+    List<BottomPiece> bottomList = new HorizontalWrapList<>(composite.getBottomPieceState(), -1, BottomPieceListCellRenderer.getInstance());
+    bottomList.setUIColorsFrom(this);
     ScrollPane bottomScrollPane = new ScrollPane(bottomList);
     bottomScrollPane.setBothScrollBarIncrements(66, 66);
     bottomScrollPane.setHorizontalScrollbarPolicy(ScrollPane.HorizontalScrollbarPolicy.NEVER);

@@ -559,7 +559,7 @@ public class FolderTabbedPane<E extends TabComposite<?>> extends CardBasedTabbed
   private void setInnerHeaderTrailingComponent(SwingComponentView<?> component) {
     if (component != null) {
       if (!component.isOpaque()) {
-        component.setBackgroundColor(this.getBackgroundColor());
+        component.setUIColorsFrom(this);
       }
       component.setAlignmentY(Component.BOTTOM_ALIGNMENT);
       this.innerHeaderPanel.addLineEndComponent(component);
@@ -575,7 +575,7 @@ public class FolderTabbedPane<E extends TabComposite<?>> extends CardBasedTabbed
   public void setHeaderTrailingComponent(SwingComponentView<?> component) {
     if (component != null) {
       if (!component.isOpaque()) {
-        component.setBackgroundColor(this.getBackgroundColor());
+        component.setUIColorsFrom(this);
       }
       component.setAlignmentY(Component.BOTTOM_ALIGNMENT);
       this.outerHeaderPanel.addLineEndComponent(component);

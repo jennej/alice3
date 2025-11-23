@@ -182,8 +182,8 @@ public final class ToolPaletteView extends Panel {
     super.setBackgroundColor(null); // transparent
 
     // only pass this color on to the children
-    for (AwtComponentView<?> component : this.getComponents()) {
-      component.setBackgroundColor(color);
+    for (AwtComponentView<?> child : this.getComponents()) {
+      child.setBackgroundColor(color);
     }
   }
 
@@ -192,8 +192,8 @@ public final class ToolPaletteView extends Panel {
     super.setForegroundColor(color);
 
     // also pass this color on to the children
-    for (AwtComponentView<?> component : this.getComponents()) {
-      component.setForegroundColor(color);
+    for (AwtComponentView<?> child : this.getComponents()) {
+      child.setForegroundColor(color);
     }
   }
 

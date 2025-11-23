@@ -50,7 +50,6 @@ import org.lgna.croquet.edits.Edit;
 import org.lgna.croquet.history.UserActivity;
 import org.lgna.project.ast.AbstractDeclaration;
 
-import java.awt.Color;
 import java.util.UUID;
 
 /**
@@ -74,15 +73,11 @@ public abstract class RenameDeclarationComposite<N extends AbstractDeclaration> 
     return new RenameDeclarationEdit(userActivity, declaration, this.declaration.getName(), this.getNameState().getValue());
   }
 
-  private Color getViewBackgroundColor() {
-    return ThemeUtilities.getActiveTheme().getColorFor(this.declaration);
-  }
-
   @Override
   protected RenamePanel createView() {
     RenamePanel rv = new RenamePanel(this);
     rv.setMinimumPreferredWidth(320);
-    rv.setBackgroundColor(this.getViewBackgroundColor());
+    rv.setBackgroundColor(ThemeUtilities.getActiveTheme().getColorFor(this.declaration));
     return rv;
   }
 }

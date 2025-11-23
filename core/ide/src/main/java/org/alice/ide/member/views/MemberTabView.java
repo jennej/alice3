@@ -129,7 +129,7 @@ public abstract class MemberTabView extends MigPanel {
           if (MemberTabComposite.ARE_TOOL_PALETTES_INERT) {
             view.getTitle().setInert(true);
           }
-          view.setBackgroundColor(this.getBackgroundColor());
+          view.setUIColorsFrom(this);
           if (subComposite instanceof UserMethodsSubComposite userMethodsSubComposite) {
             view.getTitle().setSuppressed(!userMethodsSubComposite.isRelevant());
           }
@@ -140,7 +140,7 @@ public abstract class MemberTabView extends MigPanel {
         scrollPaneView.addComponent(Separator.createInstanceSeparatingTopFromBottom(), "wrap");
       }
     }
-    scrollPaneView.setBackgroundColor(this.getBackgroundColor());
+    scrollPaneView.setUIColorsFrom(this);
     ScrollPane scrollPane = new ScrollPane(scrollPaneView);
     this.addComponent(scrollPane, scrollPaneConstraints);
   }
